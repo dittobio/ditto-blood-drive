@@ -524,9 +524,9 @@
   //    Also add emily@dittobio.com and adair@dittobio.com as CC in the template
   // 4. Copy your Public Key from Account → General
   // 5. Replace the three placeholders below
-  const EMAILJS_PUBLIC_KEY  = 'REPLACE_WITH_EMAILJS_PUBLIC_KEY';
-  const EMAILJS_SERVICE_ID  = 'REPLACE_WITH_EMAILJS_SERVICE_ID';
-  const EMAILJS_TEMPLATE_ID = 'REPLACE_WITH_EMAILJS_TEMPLATE_ID';
+  const EMAILJS_PUBLIC_KEY  = 'JWJL1U9caCYpc_HMf';
+  const EMAILJS_SERVICE_ID  = 'service_4fl2l7l';
+  const EMAILJS_TEMPLATE_ID = 'template_63yvyqs';
   emailjs.init(EMAILJS_PUBLIC_KEY);
   // ──────────────────────────────────────────────────────────────────────────
   // Generate 50 slots of 7 min starting at 12:00 PM
@@ -581,7 +581,7 @@
     err.classList.remove('visible');
 
     // ── 1. Notify Adair & Emily via Formspree ─────────────────────────────
-    fetch('https://formspree.io/f/REPLACE_WITH_FORMSPREE_ID', {
+    fetch('https://formspree.io/f/meelnjrb', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
