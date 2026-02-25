@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ditto Bio Blood Draw Sign-Up · March 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #ffffff; --bg: #f7f8fa; --blue: #2563eb; --blue-dark: #1d4ed8;
+    --blue-light: #eff4ff; --blue-border: #c7d9fd; --ink: #111827; --ink-mid: #374151;
+    --muted: #6b7280; --border: #e5e7eb; --border-mid: #d1d5db;
+    --taken-bg: #f3f4f6; --taken-text: #c9cdd4;
+    --red: #dc2626; --red-light: #fef2f2; --red-border: #fecaca; --radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  nav { background: var(--white); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; height: 62px; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .nav-wordmark { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.02em; }
+  .nav-right { display: flex; align-items: center; gap: 1rem; }
+  .nav-pill { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); background: var(--blue-light); border: 1px solid var(--blue-border); padding: 0.3rem 0.8rem; border-radius: 100px; }
+  .nav-cta { font-size: 0.82rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+  .nav-cta:hover { color: var(--blue); }
+  .nav-cta::after { content: ' ↗'; font-size: 0.72rem; }
+  .hero { background: var(--white); border-bottom: 1px solid var(--border); padding: 4.5rem 2rem 4rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .hero-left { flex: 1; min-width: 280px; }
+  .hero-eyebrow { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 1.2rem; }
+  .hero h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; margin-bottom: 1.2rem; }
+  .hero-body { font-size: 0.97rem; color: var(--muted); line-height: 1.75; max-width: 480px; margin-bottom: 2rem; }
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .chip { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; font-weight: 500; color: var(--ink-mid); background: var(--bg); border: 1px solid var(--border-mid); padding: 0.35rem 0.85rem; border-radius: 100px; }
+  .chip-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .chip-dot.blue { background: var(--blue); }
+  .hero-drop { flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding-top: 0.5rem; }
+  .drop-svg { width: 120px; height: 140px; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.10)); animation: float 4s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .main { max-width: 860px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+  .section-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+  .section-title { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
+  .section-sub { font-size: 0.84rem; color: var(--muted); margin-bottom: 1.6rem; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+  .loading-bar { height: 3px; background: var(--blue-light); border-radius: 2px; margin-bottom: 1rem; overflow: hidden; display: none; }
+  .loading-bar.visible { display: block; }
+  .loading-bar-inner { height: 100%; width: 40%; background: var(--blue); border-radius: 2px; animation: slide 1s ease-in-out infinite; }
+  @keyframes slide { 0%{transform:translateX(-100%)} 100%{transform:translateX(350%)} }
+  .slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 0.45rem; }
+  .slot-btn { background: var(--white); border: 1px solid var(--border-mid); border-radius: 8px; padding: 0.6rem 0.35rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 500; cursor: pointer; transition: all 0.12s; text-align: center; color: var(--ink-mid); }
+  .slot-btn:hover:not(.taken):not(.selected) { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+  .slot-btn.selected { background: var(--blue); border-color: var(--blue); color: var(--white); font-weight: 600; box-shadow: 0 2px 10px rgba(37,99,235,0.25); }
+  .slot-btn.taken { background: var(--taken-bg); border-color: var(--border); color: var(--taken-text); cursor: not-allowed; text-decoration: line-through; }
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .card h2 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+  .card > p { font-size: 0.83rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .slot-confirm { display: none; background: var(--blue-light); border: 1px solid var(--blue-border); border-radius: 7px; padding: 0.6rem 1rem; font-size: 0.83rem; color: var(--blue); font-weight: 600; margin-bottom: 1.4rem; }
+  .slot-confirm.visible { display: block; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  input { background: var(--bg); border: 1px solid var(--border-mid); border-radius: 7px; padding: 0.62rem 0.85rem; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--ink); outline: none; transition: border-color 0.14s, background 0.14s; }
+  input::placeholder { color: #c4c9d3; }
+  input:focus { border-color: var(--blue); background: var(--white); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  .submit-btn { width: 100%; background: var(--blue); color: var(--white); border: none; border-radius: 8px; padding: 0.82rem 2rem; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; margin-top: 1.2rem; transition: background 0.15s, transform 0.1s; }
+  .submit-btn:hover:not(:disabled) { background: var(--blue-dark); transform: translateY(-1px); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .form-note { font-size: 0.73rem; color: var(--muted); text-align: center; margin-top: 0.8rem; }
+  .form-note a { color: var(--blue); text-decoration: none; }
+  .error-msg { font-size: 0.78rem; color: var(--red); padding: 0.5rem 0.75rem; background: var(--red-light); border: 1px solid var(--red-border); border-radius: 6px; margin-top: 0.75rem; display: none; }
+  .error-msg.visible { display: block; }
+  .success-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 3rem 2rem; box-shadow: 0 1px 4px rgba(0,0,0,0.04); text-align: center; display: none; }
+  .success-card.visible { display: block; }
+  .success-icon { width: 52px; height: 52px; background: var(--blue-light); border: 1.5px solid var(--blue-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--blue); margin: 0 auto 1.5rem; }
+  .success-card h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 0.4rem; }
+  .success-time { font-size: 1.25rem; font-weight: 700; color: var(--blue); margin: 0.8rem 0 0.2rem; }
+  .success-card p { font-size: 0.86rem; color: var(--muted); line-height: 1.65; max-width: 420px; margin: 0 auto; }
+  .success-mini-drop { margin: 1.5rem auto 0; display: block; width: 48px; height: 56px; animation: float 4s ease-in-out infinite; }
+  .learn-btn { display: inline-flex; align-items: center; gap: 0.45rem; background: var(--blue); color: var(--white); text-decoration: none; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.83rem; font-weight: 600; transition: background 0.15s; }
+  .learn-btn:hover { background: var(--blue-dark); }
+  #adminToggle { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--ink); color: white; border: none; border-radius: 100px; padding: 0.5rem 1rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; opacity: 0.35; transition: opacity 0.2s; z-index: 200; font-family: 'Inter', sans-serif; }
+  #adminToggle:hover { opacity: 1; }
+  #adminModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 300; align-items: center; justify-content: center; padding: 1rem; }
+  #adminModal.visible { display: flex; }
+  .admin-box { background: var(--white); border-radius: 14px; width: 100%; max-width: 660px; max-height: 90vh; overflow-y: auto; padding: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+  .admin-box h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .admin-box > p { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .admin-close { float: right; background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--muted); margin-top: -0.3rem; }
+  .admin-login { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+  .admin-login input { flex: 1; }
+  .admin-login button { background: var(--blue); color: white; border: none; border-radius: 7px; padding: 0.62rem 1.2rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.88rem; cursor: pointer; white-space: nowrap; }
+  .admin-login button:hover { background: var(--blue-dark); }
+  .admin-error { font-size: 0.78rem; color: var(--red); margin-bottom: 1rem; display: none; }
+  .admin-error.visible { display: block; }
+  .admin-panel { display: none; }
+  .admin-panel.visible { display: block; }
+  .admin-stats { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .stat-chip { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 1rem; font-size: 0.82rem; color: var(--muted); }
+  .stat-chip strong { display: block; font-size: 1.4rem; font-weight: 700; color: var(--blue); line-height: 1.2; }
+  .booking-list { display: flex; flex-direction: column; gap: 0.4rem; }
+  .booking-row { display: flex; align-items: center; justify-content: space-between; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.8rem; font-size: 0.82rem; gap: 0.5rem; flex-wrap: wrap; }
+  .btime { font-weight: 700; color: var(--blue); min-width: 70px; }
+  .bname { flex: 1; font-weight: 500; }
+  .bemail { color: var(--muted); font-size: 0.75rem; }
+  .cancel-btn { background: var(--red-light); color: var(--red); border: 1px solid var(--red-border); border-radius: 6px; padding: 0.3rem 0.7rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; white-space: nowrap; font-family: 'Inter', sans-serif; transition: all 0.15s; }
+  .cancel-btn:hover { background: var(--red); color: white; }
+  .empty-state { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; }
+  .admin-refresh { background: none; border: 1px solid var(--border-mid); border-radius: 7px; padding: 0.4rem 0.9rem; font-size: 0.78rem; font-weight: 500; cursor: pointer; color: var(--ink-mid); font-family: 'Inter', sans-serif; margin-bottom: 1rem; }
+  .admin-refresh:hover { border-color: var(--blue); color: var(--blue); }
+  footer { border-top: 1px solid var(--border); background: var(--white); padding: 1.8rem 2rem; text-align: center; font-size: 0.75rem; color: var(--muted); }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://www.dittobio.com/" target="_blank" class="nav-logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <circle cx="11" cy="11" r="10.25" stroke="#2563eb" stroke-width="1.5"/>
+      <circle cx="11" cy="11" r="5" fill="#2563eb"/>
+    </svg>
+    <span class="nav-wordmark">Ditto Bio</span>
+  </a>
+  <div class="nav-right">
+    <span class="nav-pill">Blood Draw · March 2</span>
+    <a href="https://www.dittobio.com/" target="_blank" class="nav-cta">dittobio.com</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Ditto Bio · Company Research Event</div>
+      <h1>Give blood.<br>Advance the science.</h1>
+      <p class="hero-body">Hey YC founders! Thank you for supporting Ditto Bio. Your donation will help us understand how the immune system responds to foreign proteins — foundational knowledge that guides our design of better drugs for patients with autoimmune disease.</p>
+      <div class="hero-chips">
+        <span class="chip"><span class="chip-dot blue"></span>Monday, March 2, 2026</span>
+        <span class="chip"><span class="chip-dot blue"></span>12:00 PM – 6:00 PM</span>
+        <span class="chip"><span class="chip-dot blue"></span>50 slots · 7 min each</span>
+        <span class="chip"><span class="chip-dot blue"></span>YC Office · Bldg 560 · Room 100 (Basement)</span>
+      </div>
+    </div>
+    <div class="hero-drop">
+      <svg class="drop-svg" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="rainbowDrop" cx="45%" cy="40%" r="65%" fx="45%" fy="35%">
+            <stop offset="0%" stop-color="#ff6b6b"/><stop offset="18%" stop-color="#ff9f43"/>
+            <stop offset="36%" stop-color="#ffd43b"/><stop offset="52%" stop-color="#69db7c"/>
+            <stop offset="68%" stop-color="#4dabf7"/><stop offset="84%" stop-color="#9775fa"/>
+            <stop offset="100%" stop-color="#f783ac"/>
+          </radialGradient>
+          <radialGradient id="sheen" cx="35%" cy="28%" r="35%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="dropShadow"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="rgba(0,0,0,0.18)"/></filter>
+        </defs>
+        <path d="M60 8 C60 8 15 60 15 88 C15 114 35 132 60 132 C85 132 105 114 105 88 C105 60 60 8 60 8 Z" fill="url(#rainbowDrop)" filter="url(#dropShadow)"/>
+        <path d="M60 8 C60 8 15 60 15 88 C15 114 35 132 60 132 C85 132 105 114 105 88 C105 60 60 8 60 8 Z" fill="url(#sheen)"/>
+        <ellipse cx="44" cy="55" rx="10" ry="14" fill="white" opacity="0.25" transform="rotate(-20 44 55)"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="section-label">Step 1</div>
+  <div class="section-title">Pick a time slot</div>
+  <p class="section-sub">Select an open 7-minute window. Slots fill up on a first-come, first-served basis.</p>
+  <div class="loading-bar" id="loadingBar"><div class="loading-bar-inner"></div></div>
+  <div class="slots-grid" id="slotsGrid"></div>
+  <hr>
+  <div class="section-label" style="margin-bottom:1.2rem">Step 2</div>
+  <div class="card" id="formCard">
+    <h2>Complete your registration</h2>
+    <p>Your details are only used to confirm your appointment.</p>
+    <div class="slot-confirm" id="slotConfirm">Selected: <span id="slotText">—</span> &nbsp;·&nbsp; Monday, March 2, 2026</div>
+    <div class="form-row">
+      <div class="form-group"><label>First name</label><input type="text" id="firstName" placeholder="Jane" autocomplete="given-name"></div>
+      <div class="form-group"><label>Last name</label><input type="text" id="lastName" placeholder="Smith" autocomplete="family-name"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group full"><label>Email</label><input type="email" id="email" placeholder="jane@example.com" autocomplete="email"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group full">
+        <label>Team / Department <span style="text-transform:none;font-weight:400;letter-spacing:0;font-size:0.8rem;color:#9ca3af">(optional)</span></label>
+        <input type="text" id="department" placeholder="e.g. Research, Operations...">
+      </div>
+    </div>
+    <div class="error-msg" id="errorMsg"></div>
+    <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Confirm my slot</button>
+    <p class="form-note">Questions? Email <a href="mailto:hello@dittobio.com">hello@dittobio.com</a></p>
+  </div>
+  <div class="success-card" id="successCard">
+    <div class="success-icon">&#10003;</div>
+    <h2>You're registered!</h2>
+    <p>Thanks for signing up for the Ditto Bio blood draw.</p>
+    <div class="success-time" id="successTime"></div>
+    <p>Monday, March 2, 2026</p>
+    <p style="margin-top:0.9rem;">Please arrive a few minutes early and drink plenty of water beforehand. Thank you for contributing to our research.</p>
+    <svg class="success-mini-drop" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="rd2" cx="45%" cy="40%" r="65%">
+          <stop offset="0%" stop-color="#ff6b6b"/><stop offset="25%" stop-color="#ffd43b"/>
+          <stop offset="50%" stop-color="#69db7c"/><stop offset="75%" stop-color="#4dabf7"/>
+          <stop offset="100%" stop-color="#9775fa"/>
+        </radialGradient>
+      </defs>
+      <path d="M60 8 C60 8 15 60 15 88 C15 114 35 132 60 132 C85 132 105 114 105 88 C105 60 60 8 60 8 Z" fill="url(#rd2)"/>
+      <ellipse cx="44" cy="55" rx="10" ry="14" fill="white" opacity="0.3" transform="rotate(-20 44 55)"/>
+    </svg>
+    <div style="display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center;margin-top:1.8rem;">
+      <a id="calendarBtn" href="#" target="_blank" class="learn-btn" style="background:#fff;color:#2563eb;border:1.5px solid #2563eb;">Add to Google Calendar</a>
+      <a href="https://www.dittobio.com/" target="_blank" class="learn-btn">Learn more about Ditto Bio</a>
+    </div>
+    <p style="margin-top:1.2rem;font-size:0.75rem;color:#9ca3af;">Need to cancel? Email <a href="mailto:hello@dittobio.com" style="color:#2563eb;">hello@dittobio.com</a></p>
+  </div>
+</div>
+
+<footer>
+  Organized by <a href="https://www.dittobio.com/" target="_blank">Ditto Bio</a> &nbsp;·&nbsp;
+  Evolutionary therapies for autoimmune disease &nbsp;·&nbsp;
+  <a href="mailto:hello@dittobio.com">hello@dittobio.com</a>
+</footer>
+
+<button id="adminToggle" onclick="openAdmin()">Admin</button>
+
+<div id="adminModal">
+  <div class="admin-box">
+    <button class="admin-close" onclick="closeAdmin()">x</button>
+    <h2>Admin Panel</h2>
+    <p>View all bookings and cancel slots.</p>
+    <div id="adminLoginSection">
+      <div class="admin-login">
+        <input type="password" id="adminPwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkAdminPw()">
+        <button onclick="checkAdminPw()">Unlock</button>
+      </div>
+      <div class="admin-error" id="adminError">Incorrect password.</div>
+    </div>
+    <div class="admin-panel" id="adminPanel">
+      <button class="admin-refresh" onclick="renderAdminPanel()">Refresh</button>
+      <div class="admin-stats" id="adminStats"></div>
+      <div class="booking-list" id="bookingList"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz6MRFhFh5zKIpWT0RDxVPPDmsCf9Fr7euvbGhoV-gbc6yvJIm4zuE0n4qR81tsVtLK_Q/exec';
+var FORMSPREE_ID = 'meelnjrb';
+var EMAILJS_PUBLIC_KEY = 'JWJL1U9caCYpc_HMf';
+var EMAILJS_SERVICE_ID = 'service_4fl2l7l';
+var EMAILJS_TEMPLATE_ID = 'template_63yvyqs';
+var ADMIN_PASSWORD = 'ditto2026';
+
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
+var slots = [];
+for (var i = 0; i < 50; i++) {
+  var totalMins = 12 * 60 + i * 7;
+  var h = Math.floor(totalMins / 60);
+  var m = totalMins % 60;
+  var suffix = h < 12 ? 'AM' : 'PM';
+  var displayH = h === 0 ? 12 : h > 12 ? h - 12 : h;
+  var displayM = m < 10 ? '0' + m : '' + m;
+  slots.push(displayH + ':' + displayM + ' ' + suffix);
+}
+
+var takenSlots = [];
+var selectedSlot = null;
+
+function renderSlots() {
+  var grid = document.getElementById('slotsGrid');
+  grid.innerHTML = '';
+  for (var i = 0; i < slots.length; i++) {
+    (function(slot) {
+      var btn = document.createElement('button');
+      var taken = takenSlots.indexOf(slot) !== -1;
+      var sel = selectedSlot === slot;
+      btn.className = 'slot-btn' + (taken ? ' taken' : '') + (sel ? ' selected' : '');
+      btn.textContent = slot;
+      btn.disabled = taken;
+      if (!taken) btn.onclick = function() { selectSlot(slot); };
+      grid.appendChild(btn);
+    })(slots[i]);
+  }
+}
+
+function loadTakenSlots() {
+  document.getElementById('loadingBar').classList.add('visible');
+  fetch(SCRIPT_URL + '?action=getBookings')
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success) {
+        takenSlots = data.bookings.map(function(b) { return b.slot; });
+      }
+      document.getElementById('loadingBar').classList.remove('visible');
+      renderSlots();
+    })
+    .catch(function() {
+      document.getElementById('loadingBar').classList.remove('visible');
+    });
+}
+
+function selectSlot(slot) {
+  selectedSlot = slot;
+  document.getElementById('slotText').textContent = slot;
+  document.getElementById('slotConfirm').classList.add('visible');
+  renderSlots();
+  setTimeout(function() {
+    document.getElementById('formCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 80);
+}
+
+function handleSubmit() {
+  var firstName = document.getElementById('firstName').value.trim();
+  var lastName = document.getElementById('lastName').value.trim();
+  var email = document.getElementById('email').value.trim();
+  var department = document.getElementById('department').value.trim();
+  var err = document.getElementById('errorMsg');
+  var btn = document.getElementById('submitBtn');
+
+  if (!selectedSlot || !firstName || !lastName || !email) {
+    err.textContent = 'Please select a time slot and fill in your name and email.';
+    err.classList.add('visible');
+    return;
+  }
+  err.classList.remove('visible');
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+
+  var bookingName = firstName + ' ' + lastName;
+  var slot = selectedSlot;
+
+  var params = 'action=addBooking'
+    + '&slot=' + encodeURIComponent(slot)
+    + '&name=' + encodeURIComponent(bookingName)
+    + '&email=' + encodeURIComponent(email)
+    + '&department=' + encodeURIComponent(department || '');
+
+  fetch(SCRIPT_URL + '?' + params)
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.error === 'Slot already taken') {
+        if (takenSlots.indexOf(slot) === -1) takenSlots.push(slot);
+        renderSlots();
+        err.textContent = 'Sorry, that slot was just taken! Please pick another.';
+        err.classList.add('visible');
+        btn.disabled = false;
+        btn.textContent = 'Confirm my slot';
+        selectedSlot = null;
+        document.getElementById('slotConfirm').classList.remove('visible');
+        return;
+      }
+      if (takenSlots.indexOf(slot) === -1) takenSlots.push(slot);
+      renderSlots();
+      sendNotifications(firstName, lastName, email, department, slot);
+      showSuccess(slot);
+    })
+    .catch(function() {
+      if (takenSlots.indexOf(slot) === -1) takenSlots.push(slot);
+      renderSlots();
+      sendNotifications(firstName, lastName, email, department, slot);
+      showSuccess(slot);
+    });
+}
+
+function sendNotifications(firstName, lastName, email, department, slot) {
+  var name = firstName + ' ' + lastName;
+  fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      _subject: '[Blood Draw] ' + name + ' - ' + slot,
+      name: name, email: email,
+      department: department || '(not provided)',
+      slot: slot, date: 'Monday, March 2, 2026',
+      location: 'YC Office, Building 560, Room 100 (Basement)'
+    })
+  }).catch(function() {});
+
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    to_name: name, to_email: email, slot: slot,
+    date: 'Monday, March 2, 2026',
+    location: 'YC Office, Building 560, Room 100 (Basement)',
+    department: department || '(not provided)'
+  }).catch(function() {});
+}
+
+function showSuccess(slot) {
+  var parts = slot.split(' ');
+  var tp = parts[0].split(':');
+  var hh = parseInt(tp[0]);
+  var mm = parseInt(tp[1]);
+  var mer = parts[1];
+  if (mer === 'PM' && hh !== 12) hh += 12;
+  if (mer === 'AM' && hh === 12) hh = 0;
+  var pad = function(n) { return n < 10 ? '0' + n : '' + n; };
+  var s = '20260302T' + pad(hh) + pad(mm) + '00';
+  var em = hh * 60 + mm + 7;
+  var e = '20260302T' + pad(Math.floor(em / 60)) + pad(em % 60) + '00';
+  document.getElementById('calendarBtn').href =
+    'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    + '&text=' + encodeURIComponent('Ditto Bio Blood Draw')
+    + '&dates=' + s + '/' + e
+    + '&details=' + encodeURIComponent('Thank you for supporting Ditto Bio!\n\nArrive a few minutes early and drink plenty of water.\n\nTo cancel: hello@dittobio.com')
+    + '&location=' + encodeURIComponent('YC Office, Building 560, Room 100 (Basement)');
+  document.getElementById('formCard').style.display = 'none';
+  document.getElementById('successTime').textContent = slot;
+  document.getElementById('successCard').classList.add('visible');
+  document.getElementById('successCard').scrollIntoView({ behavior: 'smooth' });
+}
+
+function openAdmin() {
+  document.getElementById('adminModal').classList.add('visible');
+  setTimeout(function() { document.getElementById('adminPwInput').focus(); }, 100);
+}
+
+function closeAdmin() {
+  document.getElementById('adminModal').classList.remove('visible');
+}
+
+function checkAdminPw() {
+  if (document.getElementById('adminPwInput').value === ADMIN_PASSWORD) {
+    document.getElementById('adminLoginSection').style.display = 'none';
+    document.getElementById('adminPanel').classList.add('visible');
+    renderAdminPanel();
+  } else {
+    document.getElementById('adminError').classList.add('visible');
+  }
+}
+
+function renderAdminPanel() {
+  var list = document.getElementById('bookingList');
+  var stats = document.getElementById('adminStats');
+  list.innerHTML = '<div class="empty-state">Loading...</div>';
+  fetch(SCRIPT_URL + '?action=getBookings')
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (!data.success) throw new Error('failed');
+      var bookings = data.bookings;
+      stats.innerHTML =
+        '<div class="stat-chip"><strong>' + bookings.length + '</strong>Booked</div>' +
+        '<div class="stat-chip"><strong>' + (50 - bookings.length) + '</strong>Available</div>' +
+        '<div class="stat-chip"><strong>50</strong>Total</div>';
+      if (bookings.length === 0) {
+        list.innerHTML = '<div class="empty-state">No bookings yet.</div>';
+        return;
+      }
+      var sorted = bookings.slice().sort(function(a, b) {
+        return slots.indexOf(a.slot) - slots.indexOf(b.slot);
+      });
+      list.innerHTML = sorted.map(function(b) {
+        var ss = b.slot.replace(/'/g, '');
+        var sn = b.name.replace(/'/g, '');
+        return '<div class="booking-row">'
+          + '<span class="btime">' + b.slot + '</span>'
+          + '<span class="bname">' + b.name + (b.department ? ' <span style="color:var(--muted);font-weight:400">· ' + b.department + '</span>' : '') + '</span>'
+          + '<span class="bemail">' + b.email + '</span>'
+          + '<button class="cancel-btn" onclick="cancelBooking(\'' + ss + '\',\'' + sn + '\')">Cancel</button>'
+          + '</div>';
+      }).join('');
+    })
+    .catch(function() {
+      list.innerHTML = '<div class="empty-state">Could not load bookings.</div>';
+    });
+}
+
+function cancelBooking(slot, name) {
+  if (!confirm('Cancel ' + name + ' at ' + slot + '?')) return;
+  fetch(SCRIPT_URL + '?action=cancelBooking&slot=' + encodeURIComponent(slot))
+    .then(function() {
+      takenSlots = takenSlots.filter(function(s) { return s !== slot; });
+      renderSlots();
+      renderAdminPanel();
+    })
+    .catch(function() { alert('Could not cancel. Please try again.'); });
+}
+
+document.getElementById('adminModal').addEventListener('click', function(e) {
+  if (e.target === this) closeAdmin();
+});
+
+renderSlots();
+loadTakenSlots();
+</script>
+</body>
+</html>
