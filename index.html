@@ -405,14 +405,14 @@ function sendNotifications(firstName, lastName, email, department, slot) {
       name: name, email: email,
       department: department || '(not provided)',
       slot: slot, date: 'Monday, March 2, 2026',
-      location: 'YC Office, Building 560, Room 100 (Basement)'
+      location: 'YC Office, 560 20th Street, Building 560, Room 100 (Basement)'
     })
   }).catch(function() {});
 
   emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
     to_name: name, to_email: email, slot: slot,
     date: 'Monday, March 2, 2026',
-    location: 'YC Office, Building 560, Room 100 (Basement)',
+    location: 'YC Office, 560 20th Street, Building 560, Room 100 (Basement)',
     department: department || '(not provided)'
   }).catch(function() {});
 }
@@ -434,7 +434,7 @@ function showSuccess(slot) {
     + '&text=' + encodeURIComponent('Ditto Bio Blood Draw')
     + '&dates=' + s + '/' + e
     + '&details=' + encodeURIComponent('Thank you for supporting Ditto Bio!\n\nArrive a few minutes early and drink plenty of water.\n\nTo cancel: hello@dittobio.com')
-    + '&location=' + encodeURIComponent('YC Office, Building 560, Room 100 (Basement)');
+    + '&location=' + encodeURIComponent('YC Office, 560 20th Street, Building 560, Room 100 (Basement)');
   document.getElementById('formCard').style.display = 'none';
   document.getElementById('successTime').textContent = slot;
   document.getElementById('successCard').classList.add('visible');
